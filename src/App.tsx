@@ -1,26 +1,50 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import 'antd/dist/antd.min.css';
+import FormGroup from './components/form-group';
+import { IFormGroupProps } from './components/form-group/interface';
 
-const App: React.FC = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  render() {
+    // FIXME:
+    // @ts-ignore
+    const opts: IFormGroupProps = {
+      layout: 'horizontal',
+      onSubmit: values => console.log(values),
+      fields: [
+        {
+          type: 'input',
+          id: 'name',
+          label: '名称',
+        },
+        {
+          type: 'select',
+          id: 'area',
+          label: '地区',
+          defaultValue: 'hebei',
+          options: [
+            { label: '河北', value: 'hebei' },
+            { label: '河南', value: 'henan' },
+          ]
+        },
+        {
+          type: 'select',
+          id: 'male',
+          label: '性别',
+          options: {
+            api: '/male',
+            storeField: 'male',
+          }
+        }
+      ]
+    };
+
+    return (
+      <div style={{width: '300px'}}>
+        <FormGroup {...opts} />
+      </div>
+    )
+  }
 }
 
 export default App;
