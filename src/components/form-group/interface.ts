@@ -61,6 +61,7 @@ export interface IFormCheckbox extends IFormItem {
 export interface IFormDate extends IFormItem {
   type: 'date' | 'rangePicker';
   format?: string;
+  timeStamp?: boolean;
 }
 
 export type OneOfFormItem = IFormItem | IFormInput | IFormInputNumber | IFormSelect | IFormSwitch | IFormRadio | IFormCheckbox | IFormDate;

@@ -119,11 +119,13 @@ class App extends React.Component {
           type: 'date',
           id: 'date1',
           label: '时间',
+          format: 'YYYY-MM-DD'
         },
         {
           type: 'rangePicker',
           id: 'date3',
           label: '时间2',
+          timeStamp: true,
         }
       ]
     };

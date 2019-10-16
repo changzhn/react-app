@@ -3,7 +3,6 @@ import { FormGroup } from './index';
 import { OneOfFormItem, IFormSelect, IRemoteOptions, IFormInputNumber, IFormSwitch, IFormRadio, IFormCheckbox } from './interface';
 import { Checkbox, DatePicker, Form, Input, InputNumber, Select, Switch, Radio } from 'antd';
 
-
 export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayout: any) {
   const { form, formStore } = this.props;
   const { getFieldDecorator } = form;
