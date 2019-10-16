@@ -1,7 +1,24 @@
 import * as React from 'react';
 import { FormGroup } from './index';
-import { OneOfFormItem, IFormSelect, IRemoteOptions, IFormInputNumber, IFormSwitch, IFormRadio, IFormCheckbox } from './interface';
+import { OneOfFormItem, IFormSelect, IRemoteOptions, IFormInputNumber, IFormSwitch, IFormRadio, IFormCheckbox, ILocalOptions } from './interface';
 import { Checkbox, DatePicker, Form, Input, InputNumber, Select, Switch, Radio } from 'antd';
+import { FormGroupStore } from '../../store';
+
+export function getOptions(this: FormGroup, options: IRemoteOptions | ILocalOptions[], formStore: FormGroupStore) {
+  let renderOpts: any[] = [];
+  if (Array.isArray(options)) {
+    renderOpts = options;
+  } else {
+    const { api, storeField, dataPath } = options as IRemoteOptions;
+    if (formStore.remoteOpts[storeField]) {
+      renderOpts = formStore.remoteOpts[storeField];
+    } else {
+      formStore.queryOpts(api, storeField, dataPath);
+    }
+  }
+
+  return renderOpts;
+}
 
 export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayout: any) {
   const { form, formStore } = this.props;
@@ -69,19 +86,7 @@ export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayou
     case 'select':
       {
         const { options, mode } = field as IFormSelect;
-        let renderOpts: any[] = [];
-
-        if (Array.isArray(options)) {
-          renderOpts = options;
-        } else {
-          const { api, storeField, dataPath } = options as IRemoteOptions;
-          if (formStore.remoteOpts[storeField]) {
-            renderOpts = formStore.remoteOpts[storeField];
-          } else {
-            formStore.queryOpts(api, storeField, dataPath);
-          }
-        }
-
+        let renderOpts: any[] = getOptions.call(this, options, formStore);
         el = (
           <Form.Item {...fromItemOpts}>
             {
@@ -122,18 +127,7 @@ export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayou
     case 'radio':
       {
         const { options, buttonStyle } = field as IFormRadio;
-        let renderOpts: any[] = [];
-
-        if (Array.isArray(options)) {
-          renderOpts = options;
-        } else {
-          const { api, storeField, dataPath } = options as IRemoteOptions;
-          if (formStore.remoteOpts[storeField]) {
-            renderOpts = formStore.remoteOpts[storeField];
-          } else {
-            formStore.queryOpts(api, storeField, dataPath);
-          }
-        }
+        let renderOpts: any[] = getOptions.call(this, options, formStore);
 
         el = (
           <Form.Item {...fromItemOpts}>
@@ -159,18 +153,7 @@ export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayou
     case 'checkbox':
       {
         const { options } = field as IFormCheckbox;
-        let renderOpts: any[] = [];
-
-        if (Array.isArray(options)) {
-          renderOpts = options;
-        } else {
-          const { api, storeField, dataPath } = options as IRemoteOptions;
-          if (formStore.remoteOpts[storeField]) {
-            renderOpts = formStore.remoteOpts[storeField];
-          } else {
-            formStore.queryOpts(api, storeField, dataPath);
-          }
-        }
+        let renderOpts: any[] = getOptions.call(this, options, formStore);
 
         el = (
           <Form.Item {...fromItemOpts}>

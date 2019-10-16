@@ -3,7 +3,7 @@ import { Button, Form } from 'antd';
 import { renderField } from './utils';
 import { IFormGroupProps, IFormDate } from './interface';
 import { inject, observer } from 'mobx-react';
-import moment, { Moment } from 'moment';
+import { Moment } from 'moment';
 
 @inject('formStore')
 @observer
@@ -30,37 +30,43 @@ export class FormGroup extends React.PureComponent<IFormGroupProps> {
     return buttonItemLayout;
   }
 
-  public handleSubmit = (e: any) => {
-    e.preventDefault();
-    const { form, onSubmit, fields } = this.props;
-    form.validateFields((err, values) => {
-      if (!err) {
-        if (Array.isArray(fields)) {
-          fields.forEach(field => {
-            const { id, format = 'YYYY-MM-DD HH-mm-ss', timeStamp } = field as IFormDate;
-            const value = values[id];
-            if (value && value._isAMomentObject) {
+  public convertMoment = (values: any) => {
+    const { fields } = this.props;
+    if (Array.isArray(fields)) {
+      fields.forEach(field => {
+        const { id, format = 'YYYY-MM-DD HH-mm-ss', timeStamp } = field as IFormDate;
+        const value = values[id];
+        if (value && value._isAMomentObject) {
+          if (timeStamp) {
+            values[id] = (value as Moment).valueOf();
+          } else {
+            values[id] = (value as Moment).format(format);
+          }
+        }
+
+        if (Array.isArray(value) && value.length === 2) {
+          values[id] = value.map(mom => {
+            if (mom._isAMomentObject) {
               if (timeStamp) {
-                values[id] = (value as Moment).valueOf();
+                return (mom as Moment).valueOf();
               } else {
-                values[id] = (value as Moment).format(format);
+                return (mom as Moment).format(format);
               }
             }
-
-            if (Array.isArray(value) && value.length === 2) {
-              values[id] = value.map(mom => {
-                if (mom._isAMomentObject) {
-                  if (timeStamp) {
-                    return (mom as Moment).valueOf();
-                  } else {
-                    return (mom as Moment).format(format);
-                  }
-                }
-                return mom;
-              })
-            }
+            return mom;
           })
         }
+      })
+    }
+    return values;
+  }
+
+  public handleSubmit = (e: any) => {
+    e.preventDefault();
+    const { form, onSubmit } = this.props;
+    form.validateFields((err, values) => {
+      if (!err) {
+        values = this.convertMoment(values);
         typeof onSubmit === 'function' && onSubmit(values);
       }
     });
