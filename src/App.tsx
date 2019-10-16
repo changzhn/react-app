@@ -13,9 +13,29 @@ class App extends React.Component {
       onSubmit: values => console.log(values),
       fields: [
         {
+          type: 'text',
+          id: 'plaintext',
+          label: '填写',
+          defaultValue: '纯文本',
+        },
+        {
           type: 'input',
           id: 'name',
           label: '名称',
+        },
+        {
+          type: 'password',
+          id: 'psw',
+          label: '密码',
+        },
+        {
+          type: 'inputNumber',
+          id: 'inputNumber',
+          label: '个数',
+          defaultValue: 3,
+          min: 1,
+          max: 10,
+          unit: '个',
         },
         {
           type: 'select',
@@ -35,12 +55,81 @@ class App extends React.Component {
             api: '/male',
             storeField: 'male',
           }
+        },
+        {
+          type: 'select',
+          id: 'male2',
+          label: '性别(multi)',
+          mode: 'multiple',
+          options: {
+            api: '/male',
+            storeField: 'male',
+          }
+        },
+        {
+          type: 'switch',
+          id: 'switch',
+          label: '是否选择',
+          checkedChildren: '是',
+          unCheckedChildren: '否',
+        },
+        {
+          type: 'radio',
+          id: 'radio-1',
+          label: '1+1=?',
+          defaultValue: 1,
+          buttonStyle: true,
+          options: [
+            {
+              label: '1',
+              value: 1,
+            },
+            {
+              label: '2',
+              value: 2,
+            },
+            {
+              label: '3',
+              value: 3,
+            }
+          ]
+        },
+        {
+          type: 'checkbox',
+          id: 'checkbox-1',
+          label: 'hello?',
+          defaultValue: [],
+          buttonStyle: true,
+          options: [
+            {
+              label: '1',
+              value: 1,
+            },
+            {
+              label: '2',
+              value: 2,
+            },
+            {
+              label: '3',
+              value: 3,
+            }
+          ]
+        },
+        {
+          type: 'date',
+          id: 'date1',
+          label: '时间',
+        },
+        {
+          type: 'rangePicker',
+          id: 'date3',
+          label: '时间2',
         }
       ]
     };
 
     return (
-      <div style={{width: '300px'}}>
+      <div style={{width: '600px'}}>
         <FormGroup {...opts} />
       </div>
     )

@@ -51,6 +51,11 @@ export class FormGroup extends React.PureComponent<IFormGroupProps> {
     return (
       <div>
         <Form layout={layout}>
+          <Form.Item {...buttonItemLayout}>
+            <Button onClick={this.handleSubmit} type="primary">提交</Button>
+            &nbsp;&nbsp;
+            <Button onClick={this.reset}>重置</Button>
+          </Form.Item>
           {
             Array.isArray(fields) && fields.map(field => (
               renderField.call(this, field, formItemLayout)

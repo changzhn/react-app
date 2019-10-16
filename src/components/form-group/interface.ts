@@ -6,14 +6,22 @@ export interface IFormItem {
   id: string;
   label?: string;
   width?: number;
-  type: 'input' | 'select';
+  type: 'text' | 'input' | 'password' | 'inputNumber' | 'select' | 'switch' | 'radio' | 'checkbox' | 'date' | 'rangePicker';
   // TODO:
   validations?: any; 
   defaultValue?: any;
 }
 
 export interface IFormInput extends IFormItem {
-  type: 'input';
+  type: 'input' | 'password';
+}
+
+export interface IFormInputNumber extends IFormItem {
+  type: 'inputNumber';
+  min?: number;
+  max?: number;
+  // 单位
+  unit?: string;
 }
 
 export interface IRemoteOptions {
@@ -29,10 +37,33 @@ export interface ILocalOptions {
 
 export interface IFormSelect extends IFormItem {
   type: 'select';
+  mode?: 'multiple' | 'tags';
   options: IRemoteOptions | ILocalOptions[];
 }
 
-export type OneOfFormItem = IFormInput | IFormSelect;
+export interface IFormSwitch extends IFormItem {
+  type: 'switch';
+  checkedChildren?: any;
+  unCheckedChildren?: any;
+}
+
+export interface IFormRadio extends IFormItem {
+  type: 'radio';
+  buttonStyle?: boolean;
+  options: IRemoteOptions | ILocalOptions[];
+}
+
+export interface IFormCheckbox extends IFormItem {
+  type: 'checkbox';
+  options: IRemoteOptions | ILocalOptions[];
+}
+
+export interface IFormDate extends IFormItem {
+  type: 'date' | 'rangePicker';
+  format?: string;
+}
+
+export type OneOfFormItem = IFormItem | IFormInput | IFormInputNumber | IFormSelect | IFormSwitch | IFormRadio | IFormCheckbox | IFormDate;
 
 export interface IFormGroupProps extends FormComponentProps {
   layout: 'horizontal' | 'vertical' | 'inline';
