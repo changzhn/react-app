@@ -22,6 +22,9 @@ class App extends React.Component {
           type: 'input',
           id: 'name',
           label: '名称',
+          rules: [
+            { required: false }
+          ]
         },
         {
           type: 'password',

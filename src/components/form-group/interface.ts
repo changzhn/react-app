@@ -1,15 +1,13 @@
-import { FormComponentProps } from 'antd/es/form';
+import { FormComponentProps, ValidationRule } from 'antd/es/form';
 import { FormGroupStore } from '../../store';
 
 export interface IFormItem {
   // 返回数据中的key
   id: string;
   label?: string;
-  width?: number;
   type: 'text' | 'input' | 'password' | 'inputNumber' | 'select' | 'switch' | 'radio' | 'checkbox' | 'date' | 'rangePicker';
-  // TODO:
-  validations?: any; 
   defaultValue?: any;
+  rules?: ValidationRule[]; 
 }
 
 export interface IFormInput extends IFormItem {

@@ -23,7 +23,7 @@ export function getOptions(this: FormGroup, options: IRemoteOptions | ILocalOpti
 export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayout: any) {
   const { form, formStore } = this.props;
   const { getFieldDecorator } = form;
-  const { type, id, label, defaultValue } = field;
+  const { type, id, label, defaultValue, rules = [] } = field;
   let el: React.ReactNode;
 
   const fromItemOpts = {
@@ -32,9 +32,17 @@ export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayou
     ...formItemLayout,
   };
 
+  const defaultRules = [
+    { required: true, message: `请选择/填写${label || ''}` },
+  ];
+
   const decratorOpts = {
     initialValue: defaultValue,
-  }
+    rules: [
+      ...defaultRules,
+      ...rules,
+    ],
+  };
 
   const commomOpts = {
     placeholder: `请输入${label || ''}`,

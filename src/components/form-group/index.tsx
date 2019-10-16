@@ -105,4 +105,6 @@ export class FormGroup extends React.PureComponent<IFormGroupProps> {
   }
 }
 
-export default Form.create<IFormGroupProps>()(FormGroup);
+export default Form.create<IFormGroupProps>({
+  onValuesChange: (props, value, allValues) => console.log(props, value, allValues),
+})(FormGroup);
