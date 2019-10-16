@@ -3,6 +3,7 @@ import './App.css';
 import 'antd/dist/antd.min.css';
 import FormGroup from './components/form-group';
 import { IFormGroupProps } from './components/form-group/interface';
+import CustomInput from './components/custom-input';
 
 class App extends React.Component {
   render() {
@@ -17,6 +18,15 @@ class App extends React.Component {
           id: 'plaintext',
           label: '填写',
           defaultValue: '纯文本',
+        },
+        {
+          type: 'custom',
+          id: 'custom',
+          label: '自定义',
+          defaultValue: 12,
+          // FIXME:
+          // @ts-ignore
+          el: <CustomInput />
         },
         {
           type: 'input',

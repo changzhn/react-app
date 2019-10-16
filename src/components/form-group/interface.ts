@@ -5,7 +5,7 @@ export interface IFormItem {
   // 返回数据中的key
   id: string;
   label?: string;
-  type: 'text' | 'input' | 'password' | 'inputNumber' | 'select' | 'switch' | 'radio' | 'checkbox' | 'date' | 'rangePicker';
+  type: 'text' | 'input' | 'password' | 'inputNumber' | 'select' | 'switch' | 'radio' | 'checkbox' | 'date' | 'rangePicker' | 'custom';
   defaultValue?: any;
   rules?: ValidationRule[]; 
 }
@@ -62,7 +62,14 @@ export interface IFormDate extends IFormItem {
   timeStamp?: boolean;
 }
 
-export type OneOfFormItem = IFormItem | IFormInput | IFormInputNumber | IFormSelect | IFormSwitch | IFormRadio | IFormCheckbox | IFormDate;
+// 自定义看官方文档
+// https://ant.design/components/form-cn/#components-form-demo-customized-form-controls
+export interface IFormCustom extends IFormItem {
+  type: 'custom';
+  el: React.ReactNode;
+}
+
+export type OneOfFormItem = IFormItem | IFormInput | IFormInputNumber | IFormSelect | IFormSwitch | IFormRadio | IFormCheckbox | IFormDate | IFormCustom;
 
 export interface IFormGroupProps extends FormComponentProps {
   layout: 'horizontal' | 'vertical' | 'inline';

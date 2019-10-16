@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormGroup } from './index';
-import { OneOfFormItem, IFormSelect, IRemoteOptions, IFormInputNumber, IFormSwitch, IFormRadio, IFormCheckbox, ILocalOptions } from './interface';
+import { OneOfFormItem, IFormSelect, IRemoteOptions, IFormInputNumber, IFormSwitch, IFormRadio, IFormCheckbox, ILocalOptions, IFormCustom } from './interface';
 import { Checkbox, DatePicker, Form, Input, InputNumber, Select, Switch, Radio } from 'antd';
 import { FormGroupStore } from '../../store';
 
@@ -57,7 +57,20 @@ export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayou
         </Form.Item>
       )
       break;
-
+    case 'custom':
+      const { el: inputEl } = field as IFormCustom;
+      el = (
+        <Form.Item {...fromItemOpts}>
+          {
+            getFieldDecorator(id, {
+              ...decratorOpts,
+            })(
+              inputEl
+            )
+          }
+        </Form.Item>
+      )
+      break;
     case 'input':
     case 'password':
       el = (
