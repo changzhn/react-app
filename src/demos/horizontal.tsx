@@ -20,6 +20,8 @@ export default class Horizontal extends React.PureComponent {
       fields: [
         ...Object.values(fromItems) as OneOfFormItem[]
       ],
+      okBtn: false,
+      resetBtn: false,
     };
 
     return (
