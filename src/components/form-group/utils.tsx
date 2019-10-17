@@ -52,6 +52,7 @@ export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayou
   const commomOpts = {
     placeholder: `请输入${label || ''}`,
     allowClear: true,
+    // 这里的onChange只是处理联动的
     onChange: (value: any) => this.handleChange(value, field),
   };
 

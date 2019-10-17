@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, Form, Row, Col } from 'antd';
 import { renderField } from './utils';
-import { IFormGroupProps, IFormDate, OneOfFormItem, IState, IFormSelect, IRemoteOptions } from './interface';
+import { IFormGroupProps, IFormDate, OneOfFormItem, IState, IFormSelect } from './interface';
 import { inject, observer } from 'mobx-react';
 import { Moment } from 'moment';
 import _ from 'lodash';
@@ -90,17 +90,10 @@ export class FormGroup extends React.PureComponent<IFormGroupProps, IState> {
   }
 
   public handleChange = (value: any, field: OneOfFormItem) => {
-    const { id, linked } = field as IFormSelect;
+    const { linked } = field as IFormSelect;
     // 处理联动
     if (Array.isArray(linked)) {
       this.handleLinkedSelect(field as IFormSelect, value);
-    }
-
-    // 返回上级
-    if (typeof this.props.onChange === 'function') {
-      const { form } = this.props;
-      // TODO: date组件没有触发
-      this.props.onChange({ [id]: value }, form.getFieldsValue());
     }
   }
 
@@ -197,5 +190,9 @@ export class FormGroup extends React.PureComponent<IFormGroupProps, IState> {
 }
 
 export default Form.create<IFormGroupProps>({
-  // onValuesChange: (props, value, allValues) => console.log(props, value, allValues),
+  onValuesChange: (props, value, allValues) => {
+    if (typeof props.onChange === 'function') {
+      props.onChange(value, allValues);
+    }
+  },
 })(FormGroup);
