@@ -6,6 +6,36 @@ import { inject, observer } from 'mobx-react';
 import { Moment } from 'moment';
 import _ from 'lodash';
 
+const convertMoment = (fields: any, values: any) => {
+  if (Array.isArray(fields)) {
+    fields.forEach((field: any) => {
+      const { id, format = 'YYYY-MM-DD HH-mm-ss', timeStamp } = field as IFormDate;
+      const value = values[id];
+      if (value && value._isAMomentObject) {
+        if (timeStamp) {
+          values[id] = (value as Moment).valueOf();
+        } else {
+          values[id] = (value as Moment).format(format);
+        }
+      }
+
+      if (Array.isArray(value) && value.length === 2) {
+        values[id] = value.map(mom => {
+          if (mom._isAMomentObject) {
+            if (timeStamp) {
+              return (mom as Moment).valueOf();
+            } else {
+              return (mom as Moment).format(format);
+            }
+          }
+          return mom;
+        })
+      }
+    })
+  }
+  return values;
+}
+
 @inject('formStore')
 @observer
 export class FormGroup extends React.PureComponent<IFormGroupProps, IState> {
@@ -47,43 +77,12 @@ export class FormGroup extends React.PureComponent<IFormGroupProps, IState> {
     return buttonItemLayout;
   }
 
-  public convertMoment = (values: any) => {
-    const { fields } = this.props;
-    if (Array.isArray(fields)) {
-      fields.forEach((field: any) => {
-        const { id, format = 'YYYY-MM-DD HH-mm-ss', timeStamp } = field as IFormDate;
-        const value = values[id];
-        if (value && value._isAMomentObject) {
-          if (timeStamp) {
-            values[id] = (value as Moment).valueOf();
-          } else {
-            values[id] = (value as Moment).format(format);
-          }
-        }
-
-        if (Array.isArray(value) && value.length === 2) {
-          values[id] = value.map(mom => {
-            if (mom._isAMomentObject) {
-              if (timeStamp) {
-                return (mom as Moment).valueOf();
-              } else {
-                return (mom as Moment).format(format);
-              }
-            }
-            return mom;
-          })
-        }
-      })
-    }
-    return values;
-  }
-
   public handleSubmit = (e: any) => {
     e.preventDefault();
     const { form, onSubmit } = this.props;
     form.validateFields((err, values) => {
       if (!err) {
-        values = this.convertMoment(values);
+        values = convertMoment(this.props.fields, values);
         typeof onSubmit === 'function' && onSubmit(values);
       }
     });
@@ -192,6 +191,7 @@ export class FormGroup extends React.PureComponent<IFormGroupProps, IState> {
 export default Form.create<IFormGroupProps>({
   onValuesChange: (props, value, allValues) => {
     if (typeof props.onChange === 'function') {
+      allValues = convertMoment(props.fields, allValues);
       props.onChange(value, allValues);
     }
   },
