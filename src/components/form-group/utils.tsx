@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { FormGroup } from './index';
-import { OneOfFormItem, IFormSelect, IRemoteOptions, IFormInputNumber, IFormSwitch, IFormRadio, IFormCheckbox, ILocalOptions, IFormCustom } from './interface';
-import { Checkbox, DatePicker, Form, Input, InputNumber, Select, Switch, Radio } from 'antd';
-import { FormGroupStore } from '../../store';
+import { OneOfFormItem, IFormSelect, IRemoteOptions, IFormInputNumber, IFormSwitch, IFormRadio, IFormCheckbox, ILocalOptions, IFormCustom, IFormCascader } from './interface';
+import { Checkbox, DatePicker, Form, Input, InputNumber, Select, Switch, Radio, Cascader } from 'antd';
 
-export function getOptions(this: FormGroup, options: IRemoteOptions | ILocalOptions[], formStore: FormGroupStore) {
+export function getOptions(this: FormGroup, options: IRemoteOptions | ILocalOptions[]) {
+  const { formStore } = this.props;
   let renderOpts: any[] = [];
   if (Array.isArray(options)) {
     renderOpts = options;
@@ -21,7 +21,9 @@ export function getOptions(this: FormGroup, options: IRemoteOptions | ILocalOpti
 }
 
 export function handleChange(this: FormGroup, value: any) {
-  console.log(value)
+  if (typeof this.props.onChange === 'function') {
+    this.props.onChange(value);
+  }
 }
 
 export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayout: any) {
@@ -113,7 +115,7 @@ export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayou
     case 'select':
       {
         const { options, mode } = field as IFormSelect;
-        let renderOpts: any[] = getOptions.call(this, options, formStore);
+        let renderOpts: any[] = getOptions.call(this, options);
         el = (
           <Form.Item {...fromItemOpts}>
             {
@@ -154,7 +156,7 @@ export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayou
     case 'radio':
       {
         const { options, buttonStyle } = field as IFormRadio;
-        let renderOpts: any[] = getOptions.call(this, options, formStore);
+        let renderOpts: any[] = getOptions.call(this, options);
 
         el = (
           <Form.Item {...fromItemOpts}>
@@ -180,7 +182,7 @@ export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayou
     case 'checkbox':
       {
         const { options } = field as IFormCheckbox;
-        let renderOpts: any[] = getOptions.call(this, options, formStore);
+        let renderOpts: any[] = getOptions.call(this, options);
 
         el = (
           <Form.Item {...fromItemOpts}>
@@ -229,7 +231,24 @@ export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayou
         )
       }
       break;
-
+    
+    case 'cascader':
+      {
+        const { options } = field as IFormCascader;
+        const renderOpts = getOptions.call(this, options);
+        el = (
+          <Form.Item {...fromItemOpts}>
+            {
+              getFieldDecorator(id, {
+                ...decratorOpts,
+              })(
+                <Cascader {...commomOpts} options={renderOpts} />
+              )
+            }
+          </Form.Item>
+        ) 
+      }
+      break;
     default:
 
   }

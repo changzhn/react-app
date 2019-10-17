@@ -1,5 +1,5 @@
 import CustomInput from '../components/custom-input';
-import { IFormItem, IFormInput, IFormSelect, IFormInputNumber, IFormSwitch, IFormRadio, IFormCheckbox, IFormCustom, IFormDate } from '../components/form-group/interface';
+import { IFormItem, IFormInput, IFormSelect, IFormInputNumber, IFormSwitch, IFormRadio, IFormCheckbox, IFormCustom, IFormDate, IFormCascader } from '../components/form-group/interface';
 
 export const palinText: IFormItem = {
   type: 'text',
@@ -135,3 +135,43 @@ export const rangeDate: IFormDate = {
   label: '时间2',
   timeStamp: true,
 };
+
+export const cascader: IFormCascader = {
+  type: 'cascader',
+  id: 'cascader1',
+  label: '联动1',
+  options: [
+    {
+      value: 'zhejiang',
+      label: 'Zhejiang',
+      children: [
+        {
+          value: 'hangzhou',
+          label: 'Hangzhou',
+          children: [
+            {
+              value: 'xihu',
+              label: 'West Lake',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      value: 'jiangsu',
+      label: 'Jiangsu',
+      children: [
+        {
+          value: 'nanjing',
+          label: 'Nanjing',
+          children: [
+            {
+              value: 'zhonghuamen',
+              label: 'Zhong Hua Men',
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}

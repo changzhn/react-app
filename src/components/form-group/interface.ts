@@ -75,7 +75,7 @@ export interface IFormCascader extends IFormItem {
   options: ILocalOptions[];
 }
 
-export type OneOfFormItem = IFormItem | IFormInput | IFormInputNumber | IFormSelect | IFormSwitch | IFormRadio | IFormCheckbox | IFormDate | IFormCustom;
+export type OneOfFormItem = IFormItem | IFormInput | IFormInputNumber | IFormSelect | IFormSwitch | IFormRadio | IFormCheckbox | IFormDate | IFormCustom | IFormCascader;
 
 export interface IFormGroupProps extends FormComponentProps {
   layout: 'horizontal' | 'vertical' | 'inline';
@@ -84,4 +84,5 @@ export interface IFormGroupProps extends FormComponentProps {
   formStore: FormGroupStore;
   // 整个form的列数
   col?: number;
+  onChange?: (vlaue: any) => void;
 }

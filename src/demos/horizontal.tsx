@@ -4,17 +4,22 @@ import * as fromItems from '../shared/form-items';
 import { IFormGroupProps, OneOfFormItem } from '../components/form-group/interface';
 
 export default class Horizontal extends React.PureComponent {
+
+  public handleChange = (value: any) => {
+    console.log(value);
+  }
+
   public render() {
-    debugger
     // FIXME: formStore & form props
     // @ts-ignore
     const opts: IFormGroupProps = {
       layout: 'horizontal',
       onSubmit: values => console.log(values),
+      onChange: this.handleChange.bind(this),
       col: 2,
       fields: [
         ...Object.values(fromItems) as OneOfFormItem[]
-      ]
+      ],
     };
 
     return (
