@@ -92,7 +92,7 @@ export class FormGroup extends React.PureComponent<IFormGroupProps, IState> {
   public handleChange = (value: any, field: OneOfFormItem) => {
     const { id, linked } = field as IFormSelect;
     // 处理联动
-    if (linked) {
+    if (Array.isArray(linked)) {
       this.handleLinkedSelect(field as IFormSelect, value);
     }
 
@@ -107,7 +107,7 @@ export class FormGroup extends React.PureComponent<IFormGroupProps, IState> {
 
   public handleLinkedSelect = ({ linked, defaultValue }: IFormSelect, value: any) => {
     const fields = this.state.fields.map(f => {
-      if (linked === f.id) {
+      if ((linked as any[]).includes(f.id)) {
         const { options } = f as IFormSelect;
 
         if (typeof options === 'string') {
@@ -132,9 +132,7 @@ export class FormGroup extends React.PureComponent<IFormGroupProps, IState> {
 
         // 清空关联框
         this.props.form.setFieldsValue({
-          [linked as string]: defaultValue,
-          // FIXME: 为了处理3级联动时无法清空第3级
-          [(f as IFormSelect).linked as string]: undefined,
+          [f.id]: defaultValue,
         })
       }
       return f;

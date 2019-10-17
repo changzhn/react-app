@@ -44,7 +44,7 @@ export interface IFormSelect extends IFormItem {
   type: 'select';
   mode?: 'multiple' | 'tags';
   options: IStoreOptions | IRemoteOptions | ILocalOptions[];
-  linked?: string; // 联动的select的id
+  linked?: string[]; // 联动的select的id
 }
 
 export interface IFormSwitch extends IFormItem {

@@ -59,7 +59,7 @@ export const cascader1: IFormSelect = {
   //   api: '/mock',
   //   storeField: 'l1',
   // },
-  linked: 'cascader-l2',
+  linked: ['cascader-l2', 'cascader-l3'],
 };
 
 export const cascader2: IFormSelect = {
@@ -74,12 +74,12 @@ export const cascader2: IFormSelect = {
   // linked: 'cascader-l3',
 };
 
-// export const cascader3: IFormSelect = {
-//   type: 'select',
-//   id: 'cascader-l3',
-//   label: 'cascader-l3',
-//   options: 'l3'
-// };
+export const cascader3: IFormSelect = {
+  type: 'select',
+  id: 'cascader-l3',
+  label: 'cascader-l3',
+  options: 'l2'
+};
 
 export const remoteSelect: IFormSelect = {
   type: 'select',
