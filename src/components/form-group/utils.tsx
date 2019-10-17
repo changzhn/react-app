@@ -1,12 +1,16 @@
 import * as React from 'react';
 import { FormGroup } from './index';
-import { OneOfFormItem, IFormSelect, IRemoteOptions, IFormInputNumber, IFormSwitch, IFormRadio, IFormCheckbox, ILocalOptions, IFormCustom, IFormCascader } from './interface';
+import { OneOfFormItem, IFormSelect, IRemoteOptions, IFormInputNumber, IFormSwitch, IFormRadio, IFormCheckbox, ILocalOptions, IFormCustom, IFormCascader, IStoreOptions } from './interface';
 import { Checkbox, DatePicker, Form, Input, InputNumber, Select, Switch, Radio, Cascader } from 'antd';
 
-export function getOptions(this: FormGroup, options: IRemoteOptions | ILocalOptions[]) {
+export function getOptions(this: FormGroup, options: IStoreOptions | IRemoteOptions | ILocalOptions[]) {
   const { formStore } = this.props;
   let renderOpts: any[] = [];
-  if (Array.isArray(options)) {
+  if (typeof options === 'string') {
+    if (Array.isArray(formStore.remoteOpts[options])) {
+      renderOpts = formStore.remoteOpts[options];
+    }
+  } else if (Array.isArray(options)) {
     renderOpts = options;
   } else {
     const { api, storeField, dataPath } = options as IRemoteOptions;
@@ -27,7 +31,7 @@ export function handleChange(this: FormGroup, value: any) {
 }
 
 export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayout: any) {
-  const { form, formStore } = this.props;
+  const { form } = this.props;
   const { getFieldDecorator } = form;
   const { type, id, label, defaultValue, rules = [] } = field;
   let el: React.ReactNode;

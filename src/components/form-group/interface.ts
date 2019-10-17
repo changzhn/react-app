@@ -22,6 +22,8 @@ export interface IFormInputNumber extends IFormItem {
   unit?: string;
 }
 
+export type IStoreOptions = string;
+
 export interface IRemoteOptions {
   api: string;
   storeField: string;
@@ -37,7 +39,7 @@ export interface ILocalOptions {
 export interface IFormSelect extends IFormItem {
   type: 'select';
   mode?: 'multiple' | 'tags';
-  options: IRemoteOptions | ILocalOptions[];
+  options: IStoreOptions | IRemoteOptions | ILocalOptions[];
 }
 
 export interface IFormSwitch extends IFormItem {
@@ -49,12 +51,12 @@ export interface IFormSwitch extends IFormItem {
 export interface IFormRadio extends IFormItem {
   type: 'radio';
   buttonStyle?: boolean;
-  options: IRemoteOptions | ILocalOptions[];
+  options: IStoreOptions | IRemoteOptions | ILocalOptions[];
 }
 
 export interface IFormCheckbox extends IFormItem {
   type: 'checkbox';
-  options: IRemoteOptions | ILocalOptions[];
+  options: IStoreOptions | IRemoteOptions | ILocalOptions[];
 }
 
 export interface IFormDate extends IFormItem {
@@ -72,7 +74,7 @@ export interface IFormCustom extends IFormItem {
 
 export interface IFormCascader extends IFormItem {
   type: 'cascader';
-  options: ILocalOptions[];
+  options: IStoreOptions | ILocalOptions[];
 }
 
 export type OneOfFormItem = IFormItem | IFormInput | IFormInputNumber | IFormSelect | IFormSwitch | IFormRadio | IFormCheckbox | IFormDate | IFormCustom | IFormCascader;
