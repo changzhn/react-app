@@ -19,7 +19,6 @@ export const custom: IFormCustom = {
   type: 'custom',
   id: 'custom',
   label: '自定义',
-  defaultValue: 12,
   Ele: CustomInput,
 };
 

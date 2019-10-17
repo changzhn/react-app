@@ -98,10 +98,9 @@ export class FormGroup extends React.PureComponent<IFormGroupProps, IState> {
 
     // 返回上级
     if (typeof this.props.onChange === 'function') {
+      const { form } = this.props;
       // TODO: date组件没有触发
-      this.props.onChange({ 
-        [id]: value,
-      });
+      this.props.onChange({ [id]: value }, form.getFieldsValue());
     }
   }
 
@@ -147,7 +146,7 @@ export class FormGroup extends React.PureComponent<IFormGroupProps, IState> {
 
   public render() {
     const { fields } = this.state;
-    const { layout, col = 1 } = this.props;
+    const { layout, col = 1, okBtn, resetBtn } = this.props;
     const formItemLayout = this.getFormItemLayout(layout);
     const buttonItemLayout = this.getButtonItemLayout(layout);
     if (!Array.isArray(fields)) {
@@ -181,11 +180,16 @@ export class FormGroup extends React.PureComponent<IFormGroupProps, IState> {
             ))
           }
           {/* footer */}
-          <Form.Item {...buttonItemLayout}>
-            <Button onClick={this.handleSubmit} type="primary">提交</Button>
-            &nbsp;&nbsp;
-            <Button onClick={this.reset}>重置</Button>
-          </Form.Item>
+          {
+            okBtn === false && resetBtn === false ? null :
+            (
+              <Form.Item {...buttonItemLayout}>
+                {okBtn === false ? null : <Button onClick={this.handleSubmit} type="primary">{ typeof okBtn === 'string' ? okBtn : '提交' }</Button>}
+                &nbsp;&nbsp;
+                {resetBtn === false ? null : <Button onClick={this.reset}>{ typeof resetBtn === 'string' ? resetBtn : '重置' }</Button>}
+              </Form.Item>
+            )
+          }
         </Form>
       </div>
     )

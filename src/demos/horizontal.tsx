@@ -5,8 +5,8 @@ import { IFormGroupProps, OneOfFormItem } from '../components/form-group/interfa
 
 export default class Horizontal extends React.PureComponent {
 
-  public handleChange = (value: any) => {
-    console.log(value);
+  public handleChange = (value: any, values: any) => {
+    console.log(value, values);
   }
 
   public render() {

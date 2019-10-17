@@ -91,7 +91,9 @@ export interface IFormGroupProps extends FormComponentProps {
   formStore: FormGroupStore;
   // 整个form的列数
   col?: number;
-  onChange?: (vlaue: any) => void;
+  onChange?: (vlaue: any,  values: any) => void;
+  okBtn?: false | string;
+  resetBtn?: false | string;
 }
 
 export interface IState {
