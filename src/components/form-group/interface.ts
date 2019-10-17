@@ -5,7 +5,7 @@ export interface IFormItem {
   // 返回数据中的key
   id: string;
   label?: string;
-  type: 'text' | 'input' | 'password' | 'inputNumber' | 'select' | 'switch' | 'radio' | 'checkbox' | 'date' | 'rangePicker' | 'custom';
+  type: 'text' | 'input' | 'password' | 'inputNumber' | 'select' | 'switch' | 'radio' | 'checkbox' | 'date' | 'rangePicker' | 'custom' | 'cascader';
   defaultValue?: any;
   rules?: ValidationRule[]; 
 }
@@ -31,6 +31,7 @@ export interface IRemoteOptions {
 export interface ILocalOptions {
   label: string;
   value: any;
+  children?: ILocalOptions[];
 }
 
 export interface IFormSelect extends IFormItem {
@@ -67,6 +68,11 @@ export interface IFormDate extends IFormItem {
 export interface IFormCustom extends IFormItem {
   type: 'custom';
   Ele: any;
+}
+
+export interface IFormCascader extends IFormItem {
+  type: 'cascader';
+  options: ILocalOptions[];
 }
 
 export type OneOfFormItem = IFormItem | IFormInput | IFormInputNumber | IFormSelect | IFormSwitch | IFormRadio | IFormCheckbox | IFormDate | IFormCustom;
