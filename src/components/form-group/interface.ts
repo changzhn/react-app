@@ -87,7 +87,7 @@ export type OneOfFormItem = IFormItem | IFormInput | IFormInputNumber | IFormSel
 export interface IFormGroupProps extends FormComponentProps {
   layout: 'horizontal' | 'vertical' | 'inline';
   onSubmit: (values: any) => void;
-  fields: Array<OneOfFormItem>;
+  fields: OneOfFormItem[] | OneOfFormItem[][];
   formStore: FormGroupStore;
   // 整个form的列数
   col?: number;

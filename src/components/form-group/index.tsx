@@ -50,7 +50,7 @@ export class FormGroup extends React.PureComponent<IFormGroupProps, IState> {
   public convertMoment = (values: any) => {
     const { fields } = this.props;
     if (Array.isArray(fields)) {
-      fields.forEach(field => {
+      fields.forEach((field: any) => {
         const { id, format = 'YYYY-MM-DD HH-mm-ss', timeStamp } = field as IFormDate;
         const value = values[id];
         if (value && value._isAMomentObject) {
@@ -154,7 +154,13 @@ export class FormGroup extends React.PureComponent<IFormGroupProps, IState> {
       return <div>数据错误，field应该是一个数组</div>
     }
 
-    const renderFields: OneOfFormItem[][] = _.chunk(fields, col);
+    let renderFields: OneOfFormItem[][] = [];
+    if (fields.length && Array.isArray(fields[0])) {
+      // @ts-ignore
+      renderFields = fields;
+    } else {
+      renderFields  = _.chunk(fields, col);
+    }
 
     return (
       <div>
