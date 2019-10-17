@@ -2,32 +2,26 @@ import * as React from 'react';
 import { FormGroup } from './index';
 import { OneOfFormItem, IFormSelect, IRemoteOptions, IFormInputNumber, IFormSwitch, IFormRadio, IFormCheckbox, ILocalOptions, IFormCustom, IFormCascader, IStoreOptions } from './interface';
 import { Checkbox, DatePicker, Form, Input, InputNumber, Select, Switch, Radio, Cascader } from 'antd';
+import { IOpt } from '../../store';
+import _ from 'lodash';
 
 export function getOptions(this: FormGroup, options: IStoreOptions | IRemoteOptions | ILocalOptions[]) {
   const { formStore } = this.props;
   let renderOpts: any[] = [];
   if (typeof options === 'string') {
-    if (Array.isArray(formStore.remoteOpts[options])) {
-      renderOpts = formStore.remoteOpts[options];
-    }
+    renderOpts = _.get(formStore.remoteOpts, options, []) as IOpt[];
   } else if (Array.isArray(options)) {
     renderOpts = options;
   } else {
-    const { api, storeField, dataPath } = options as IRemoteOptions;
+    const { api, storeField, dataPath, paramKey, paramValue } = options as IRemoteOptions;
     if (formStore.remoteOpts[storeField]) {
-      renderOpts = formStore.remoteOpts[storeField];
+      renderOpts = formStore.remoteOpts[storeField] as IOpt[];
     } else {
-      formStore.queryOpts(api, storeField, dataPath);
+      formStore.queryOpts(api, storeField, dataPath, { [paramKey as string]: paramValue });
     }
   }
 
   return renderOpts;
-}
-
-export function handleChange(this: FormGroup, value: any) {
-  if (typeof this.props.onChange === 'function') {
-    this.props.onChange(value);
-  }
 }
 
 export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayout: any) {
@@ -47,7 +41,7 @@ export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayou
     // { required: true, message: `请选择/填写${label || ''}` },
   ];
 
-  const decratorOpts = {
+  const decoratorOpts = {
     initialValue: defaultValue,
     rules: [
       ...defaultRules,
@@ -58,7 +52,7 @@ export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayou
   const commomOpts = {
     placeholder: `请输入${label || ''}`,
     allowClear: true,
-    onChange: handleChange.bind(this),
+    onChange: (value: any) => this.handleChange(value, field),
   };
 
   switch(type) {
@@ -75,7 +69,7 @@ export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayou
         <Form.Item {...fromItemOpts}>
           {
             getFieldDecorator(id, {
-              ...decratorOpts,
+              ...decoratorOpts,
             })(
               <Ele {...commomOpts} />
             )
@@ -89,7 +83,7 @@ export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayou
         <Form.Item {...fromItemOpts}>
           {
             getFieldDecorator(id, {
-              ...decratorOpts,
+              ...decoratorOpts,
             })(
               type === 'input' ?
               <Input {...commomOpts} /> :
@@ -106,7 +100,7 @@ export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayou
         <Form.Item {...fromItemOpts}>
           {
             getFieldDecorator(id, {
-              ...decratorOpts,
+              ...decoratorOpts,
             })(
               <InputNumber {...commomOpts} min={min} max={max} />
             )
@@ -124,7 +118,7 @@ export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayou
           <Form.Item {...fromItemOpts}>
             {
               getFieldDecorator(id, {
-                ...decratorOpts,
+                ...decoratorOpts,
               })(
                 <Select {...commomOpts} mode={mode}>
                   {
@@ -166,7 +160,7 @@ export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayou
           <Form.Item {...fromItemOpts}>
             {
               getFieldDecorator(id, {
-                ...decratorOpts,
+                ...decoratorOpts,
               })(
                 <Radio.Group>
                   {
@@ -192,7 +186,7 @@ export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayou
           <Form.Item {...fromItemOpts}>
             {
               getFieldDecorator(id, {
-                ...decratorOpts,
+                ...decoratorOpts,
               })(
                 <Checkbox.Group
                   options={renderOpts}
@@ -210,7 +204,7 @@ export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayou
           <Form.Item {...fromItemOpts}>
             {
               getFieldDecorator(id, {
-                ...decratorOpts,
+                ...decoratorOpts,
               })(
                 <DatePicker />
               )
@@ -226,7 +220,7 @@ export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayou
           <Form.Item {...fromItemOpts}>
             {
               getFieldDecorator(id, {
-                ...decratorOpts,
+                ...decoratorOpts,
               })(
                 <DatePicker.RangePicker />
               )
@@ -244,7 +238,7 @@ export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayou
           <Form.Item {...fromItemOpts}>
             {
               getFieldDecorator(id, {
-                ...decratorOpts,
+                ...decoratorOpts,
               })(
                 <Cascader {...commomOpts} options={renderOpts} />
               )

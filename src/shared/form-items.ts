@@ -50,6 +50,37 @@ export const select: IFormSelect = {
   ]
 };
 
+export const cascader1: IFormSelect = {
+  type: 'select',
+  id: 'cascader-l1',
+  label: 'cascader-l1',
+  options: 'l1',
+  // options: {
+  //   api: '/mock',
+  //   storeField: 'l1',
+  // },
+  linked: 'cascader-l2',
+};
+
+export const cascader2: IFormSelect = {
+  type: 'select',
+  id: 'cascader-l2',
+  label: 'cascader-l2',
+  options: 'l2',
+  // options: {
+  //   api: '/mock',
+  //   storeField: 'l2',
+  // },
+  // linked: 'cascader-l3',
+};
+
+// export const cascader3: IFormSelect = {
+//   type: 'select',
+//   id: 'cascader-l3',
+//   label: 'cascader-l3',
+//   options: 'l3'
+// };
+
 export const remoteSelect: IFormSelect = {
   type: 'select',
   id: 'male',

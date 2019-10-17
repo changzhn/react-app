@@ -27,6 +27,10 @@ export type IStoreOptions = string;
 export interface IRemoteOptions {
   api: string;
   storeField: string;
+  // 如果需要联动调用另一个接口会包装成 { [paramKey]: value } 形式传到接口参数中
+  paramKey?: string;
+  // 不需要手动传，在组件内部自动处理
+  paramValue?: any; 
   dataPath?: string;
 }
 
@@ -40,6 +44,7 @@ export interface IFormSelect extends IFormItem {
   type: 'select';
   mode?: 'multiple' | 'tags';
   options: IStoreOptions | IRemoteOptions | ILocalOptions[];
+  linked?: string; // 联动的select的id
 }
 
 export interface IFormSwitch extends IFormItem {
@@ -87,4 +92,8 @@ export interface IFormGroupProps extends FormComponentProps {
   // 整个form的列数
   col?: number;
   onChange?: (vlaue: any) => void;
+}
+
+export interface IState {
+  fields: Array<OneOfFormItem>;
 }
