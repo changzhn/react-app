@@ -1,6 +1,12 @@
 import * as React from 'react';
 import { Input, Select } from 'antd';
 
+/**
+ * TIPS: 如何自定义表单组件 https://ant.design/components/form-cn/#components-form-demo-customized-form-controls
+ * 提供受控属性 value 或其它与 valuePropName 的值同名的属性
+ * 提供 onChange 事件或 trigger 的值同名的事件
+ */
+
 const Option = Select.Option;
 
 export interface IProps {

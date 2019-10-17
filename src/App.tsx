@@ -12,6 +12,7 @@ class App extends React.Component {
     const opts: IFormGroupProps = {
       layout: 'horizontal',
       onSubmit: values => console.log(values),
+      col: 2,
       fields: [
         {
           type: 'text',
@@ -24,9 +25,7 @@ class App extends React.Component {
           id: 'custom',
           label: '自定义',
           defaultValue: 12,
-          // FIXME:
-          // @ts-ignore
-          el: <CustomInput />
+          Ele: CustomInput,
         },
         {
           type: 'input',
@@ -144,7 +143,8 @@ class App extends React.Component {
     };
 
     return (
-      <div style={{width: '600px'}}>
+      <div style={{width: '800px', margin: '10px auto', border: '1px solid #ccc', padding: '10px'}}>
+        <h3>horizontal demo</h3>
         <FormGroup {...opts} />
       </div>
     )

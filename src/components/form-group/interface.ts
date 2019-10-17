@@ -66,7 +66,7 @@ export interface IFormDate extends IFormItem {
 // https://ant.design/components/form-cn/#components-form-demo-customized-form-controls
 export interface IFormCustom extends IFormItem {
   type: 'custom';
-  el: React.ReactNode;
+  Ele: any;
 }
 
 export type OneOfFormItem = IFormItem | IFormInput | IFormInputNumber | IFormSelect | IFormSwitch | IFormRadio | IFormCheckbox | IFormDate | IFormCustom;
@@ -76,4 +76,6 @@ export interface IFormGroupProps extends FormComponentProps {
   onSubmit: (values: any) => void;
   fields: Array<OneOfFormItem>;
   formStore: FormGroupStore;
+  // 整个form的列数
+  col?: number;
 }

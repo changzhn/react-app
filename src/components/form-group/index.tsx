@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { Button, Form } from 'antd';
+import { Button, Form, Row, Col } from 'antd';
 import { renderField } from './utils';
-import { IFormGroupProps, IFormDate } from './interface';
+import { IFormGroupProps, IFormDate, OneOfFormItem } from './interface';
 import { inject, observer } from 'mobx-react';
 import { Moment } from 'moment';
+import _ from 'lodash';
 
 @inject('formStore')
 @observer
@@ -13,7 +14,7 @@ export class FormGroup extends React.PureComponent<IFormGroupProps> {
     const formItemLayout =
       layout === 'horizontal'
         ? {
-            labelCol: { span: 4 },
+            labelCol: { span: 6 },
             wrapperCol: { span: 14 },
           }
         : null;
@@ -24,7 +25,7 @@ export class FormGroup extends React.PureComponent<IFormGroupProps> {
     const buttonItemLayout =
       layout === 'horizontal'
         ? {
-            wrapperCol: { span: 14, offset: 4 },
+            wrapperCol: { span: 14, offset: 10 },
           }
         : null;
     return buttonItemLayout;
@@ -77,23 +78,34 @@ export class FormGroup extends React.PureComponent<IFormGroupProps> {
   }
 
   public render() {
-    const { fields, layout } = this.props;
+    const { fields, layout, col = 1 } = this.props;
     const formItemLayout = this.getFormItemLayout(layout);
     const buttonItemLayout = this.getButtonItemLayout(layout);
+    if (!Array.isArray(fields)) {
+      return <div>数据错误，field应该是一个数组</div>
+    }
+
+    const renderFields: OneOfFormItem[][] = _.chunk(fields, col);
 
     return (
       <div>
         <Form layout={layout}>
-          <Form.Item {...buttonItemLayout}>
-            <Button onClick={this.handleSubmit} type="primary">提交</Button>
-            &nbsp;&nbsp;
-            <Button onClick={this.reset}>重置</Button>
-          </Form.Item>
           {
-            Array.isArray(fields) && fields.map(field => (
-              renderField.call(this, field, formItemLayout)
+            renderFields.map((fieldGroup, rowIdx) => (
+              <Row key={`row-${rowIdx}`}>
+                {
+                  fieldGroup.map((field, colIdx) => (
+                    <Col span={24 / col} key={`col-${rowIdx}-${colIdx}`}>
+                      {
+                        renderField.call(this, field, formItemLayout)
+                      }
+                    </Col>
+                  ))
+                }
+              </Row>
             ))
           }
+          {/* footer */}
           <Form.Item {...buttonItemLayout}>
             <Button onClick={this.handleSubmit} type="primary">提交</Button>
             &nbsp;&nbsp;
@@ -106,5 +118,5 @@ export class FormGroup extends React.PureComponent<IFormGroupProps> {
 }
 
 export default Form.create<IFormGroupProps>({
-  onValuesChange: (props, value, allValues) => console.log(props, value, allValues),
+  // onValuesChange: (props, value, allValues) => console.log(props, value, allValues),
 })(FormGroup);

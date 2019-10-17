@@ -20,6 +20,10 @@ export function getOptions(this: FormGroup, options: IRemoteOptions | ILocalOpti
   return renderOpts;
 }
 
+export function handleChange(this: FormGroup, value: any) {
+  console.log(value)
+}
+
 export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayout: any) {
   const { form, formStore } = this.props;
   const { getFieldDecorator } = form;
@@ -32,8 +36,9 @@ export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayou
     ...formItemLayout,
   };
 
-  const defaultRules = [
-    { required: true, message: `请选择/填写${label || ''}` },
+  const defaultRules: any[] = [
+    // TODO: 1. 是否是默认开启必填校验 2. 自定义表单不起作用
+    // { required: true, message: `请选择/填写${label || ''}` },
   ];
 
   const decratorOpts = {
@@ -47,6 +52,7 @@ export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayou
   const commomOpts = {
     placeholder: `请输入${label || ''}`,
     allowClear: true,
+    onChange: handleChange.bind(this),
   };
 
   switch(type) {
@@ -58,14 +64,14 @@ export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayou
       )
       break;
     case 'custom':
-      const { el: inputEl } = field as IFormCustom;
+      const { Ele } = field as IFormCustom;
       el = (
         <Form.Item {...fromItemOpts}>
           {
             getFieldDecorator(id, {
               ...decratorOpts,
             })(
-              inputEl
+              <Ele {...commomOpts} />
             )
           }
         </Form.Item>
