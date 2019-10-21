@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'mobx-react';
-import formGroupStore from './store';
+import formGroupStore from './components/form-group/store';
 
 
 ReactDOM.render(

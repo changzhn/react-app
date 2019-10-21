@@ -1,5 +1,5 @@
 import { FormComponentProps, ValidationRule } from 'antd/es/form';
-import { FormGroupStore } from '../../store';
+import { FormGroupStore } from './store';
 
 export interface IFormItem {
   // 返回数据中的key
@@ -22,6 +22,8 @@ export interface IFormInputNumber extends IFormItem {
   unit?: string;
 }
 
+// _.get(formStore.remoteOpts, options, [])
+// 应用场景为拥有之前的select框同样的options
 export type IStoreOptions = string;
 
 export interface IRemoteOptions {

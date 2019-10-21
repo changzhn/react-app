@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { FormGroup } from './index';
-import { OneOfFormItem, IFormSelect, IRemoteOptions, IFormInputNumber, IFormSwitch, IFormRadio, IFormCheckbox, ILocalOptions, IFormCustom, IFormCascader, IStoreOptions } from './interface';
+import { OneOfFormItem, IFormSelect, IRemoteOptions, IFormInputNumber, IFormSwitch, IFormRadio, IFormCheckbox, ILocalOptions, IFormDate, IFormCustom, IFormCascader, IStoreOptions } from './interface';
 import { Checkbox, DatePicker, Form, Input, InputNumber, Select, Switch, Radio, Cascader } from 'antd';
-import { IOpt } from '../../store';
+import { IOpt } from './store';
 import _ from 'lodash';
+import { Moment } from 'moment';
+
 
 export function getOptions(this: FormGroup, options: IStoreOptions | IRemoteOptions | ILocalOptions[]) {
   const { formStore } = this.props;
@@ -253,4 +255,34 @@ export function renderField(this: FormGroup, field: OneOfFormItem, formItemLayou
   }
 
   return el;
+}
+
+export function convertMoment(fields: any, values: any) {
+  if (Array.isArray(fields)) {
+    fields.forEach((field: any) => {
+      const { id, format = 'YYYY-MM-DD HH-mm-ss', timeStamp } = field as IFormDate;
+      const value = values[id];
+      if (value && value._isAMomentObject) {
+        if (timeStamp) {
+          values[id] = (value as Moment).valueOf();
+        } else {
+          values[id] = (value as Moment).format(format);
+        }
+      }
+
+      if (Array.isArray(value) && value.length === 2) {
+        values[id] = value.map(mom => {
+          if (mom._isAMomentObject) {
+            if (timeStamp) {
+              return (mom as Moment).valueOf();
+            } else {
+              return (mom as Moment).format(format);
+            }
+          }
+          return mom;
+        })
+      }
+    })
+  }
+  return values;
 }

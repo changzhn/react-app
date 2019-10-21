@@ -96,6 +96,10 @@ export class FormGroupStore {
   @action public clearOne(key: string) {
     delete this.remoteOpts[key];
   }
+
+  @action public clear() {
+    this.remoteOpts = {};
+  }
 }
 
 export default new FormGroupStore();

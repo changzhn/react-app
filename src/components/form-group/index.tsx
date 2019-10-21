@@ -1,40 +1,9 @@
 import * as React from 'react';
 import { Button, Form, Row, Col } from 'antd';
-import { renderField } from './utils';
-import { IFormGroupProps, IFormDate, OneOfFormItem, IState, IFormSelect } from './interface';
+import { renderField, convertMoment } from './utils';
+import { IFormGroupProps, OneOfFormItem, IState, IFormSelect } from './interface';
 import { inject, observer } from 'mobx-react';
-import { Moment } from 'moment';
 import _ from 'lodash';
-
-const convertMoment = (fields: any, values: any) => {
-  if (Array.isArray(fields)) {
-    fields.forEach((field: any) => {
-      const { id, format = 'YYYY-MM-DD HH-mm-ss', timeStamp } = field as IFormDate;
-      const value = values[id];
-      if (value && value._isAMomentObject) {
-        if (timeStamp) {
-          values[id] = (value as Moment).valueOf();
-        } else {
-          values[id] = (value as Moment).format(format);
-        }
-      }
-
-      if (Array.isArray(value) && value.length === 2) {
-        values[id] = value.map(mom => {
-          if (mom._isAMomentObject) {
-            if (timeStamp) {
-              return (mom as Moment).valueOf();
-            } else {
-              return (mom as Moment).format(format);
-            }
-          }
-          return mom;
-        })
-      }
-    })
-  }
-  return values;
-}
 
 @inject('formStore')
 @observer
@@ -54,6 +23,10 @@ export class FormGroup extends React.PureComponent<IFormGroupProps, IState> {
       ...prevState,
       fields: nextProps.fields,
     };
+  }
+
+  public componentWillUnmount() {
+    this.props.formStore.clear();
   }
 
   public getFormItemLayout = (layout: 'horizontal' | 'vertical' | 'inline') => {
@@ -161,7 +134,7 @@ export class FormGroup extends React.PureComponent<IFormGroupProps, IState> {
               <Row key={`row-${rowIdx}`}>
                 {
                   fieldGroup.map((field, colIdx) => (
-                    <Col span={24 / col} key={`col-${rowIdx}-${colIdx}`}>
+                    <Col span={24 / fieldGroup.length} key={`col-${rowIdx}-${colIdx}`}>
                       {
                         renderField.call(this, field, formItemLayout)
                       }
