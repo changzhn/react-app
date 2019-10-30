@@ -1,0 +1,10 @@
+.seek-bar-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+.seek-bar-item {
+    flex: 1;
+}
