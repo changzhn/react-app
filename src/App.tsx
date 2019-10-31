@@ -24,6 +24,17 @@ window['moment'] = moment;
 //   fixIt: props.store.time.customStart, // fix it
 // } as any;
 
+export const GET_TIME_RANGES = {
+  '30m': () => [moment().subtract(30, 'minutes'), moment()] as [Moment, Moment],
+  '1h': () => [moment().subtract(1, 'hours'), moment()] as [Moment, Moment],
+  '2h': () => [moment().subtract(2, 'hours'), moment()] as [Moment, Moment],
+  '6h': () => [moment().subtract(6, 'hours'), moment()] as [Moment, Moment],
+  '12h': () => [moment().subtract(12, 'hours'), moment()] as [Moment, Moment],
+  '1d': () => [moment().subtract(1, 'days'), moment()] as [Moment, Moment],
+  '3d': () => [moment().subtract(3, 'days'), moment()] as [Moment, Moment],
+  '7d': () => [moment().subtract(6, 'days'), moment()] as [Moment, Moment],
+}
+
 export interface IState {
   dates: [Moment, Moment];
 }
@@ -54,10 +65,11 @@ export default class App extends React.Component<any, IState> {
     }
     
     const opts: RangePickerProps = {
+      showTime: { format: 'HH:mm' },
       format: 'YYYY-MM-DD HH:mm',
       allowClear: false,
       disabledDate: (currentDate: Moment | undefined) => currentDate ? currentDate.valueOf() > moment().valueOf() : false,
-      // defaultPickerValue: [moment('2018-12-12')],
+      ranges: GET_TIME_RANGES,
       value: dates,
       onChange: this.handleChange,
       renderExtraFooter: () => <SeekBar {...seekBarOpts} />

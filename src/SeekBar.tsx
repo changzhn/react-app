@@ -8,7 +8,7 @@ export interface ISeekBarProps {
     onChange: (value: [Moment, Moment]) => void;
 }
 
-const SeekBar: React.SFC<ISeekBarProps> = (props: ISeekBarProps) => {
+const SeekBar: React.SFC<ISeekBarProps> = React.memo((props: ISeekBarProps) => {
     const { onChange, dates: [START_TIME, END_TIME] } = props;
 
     const startHour = START_TIME.get('hour');
@@ -117,6 +117,6 @@ const SeekBar: React.SFC<ISeekBarProps> = (props: ISeekBarProps) => {
             </div>
         </div>
     );
-}
+})
 
 export default SeekBar;
