@@ -1,24 +1,29 @@
 import React from 'react';
 import logo from './logo.svg';
+import { Form, Select } from 'antd';
+import 'antd/dist/antd.min.css';
 import './App.css';
 
 const App: React.FC = () => {
+  const [query, setQuery] = React.useState<any>({num: []});
+  React.useEffect(() => {
+    setTimeout(() => {
+      setQuery({num: [1,2,3]})
+    }, 100)
+  }, []); 
+  console.log(query);
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Form initialValues={query}>
+        <Form.Item name="num">
+          <Select mode="multiple">
+            <Select.Option value={1}>1</Select.Option>
+            <Select.Option value={2}>2</Select.Option>
+            <Select.Option value={3}>3</Select.Option>
+          </Select>
+        </Form.Item>
+      </Form>
     </div>
   );
 }
